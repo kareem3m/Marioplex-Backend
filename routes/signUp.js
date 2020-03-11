@@ -27,8 +27,10 @@ router.post('/signup',(req,res)=>{
 
             spotifySchema.user.findOne({email:req.body.email}).exec().then(user=>{
                 if(user){
-
-                    res.send("Mail exists");
+                    
+                    res.status(201).json({
+                        message:'Mail exists'
+                    });
 
                 }
                 else{
@@ -60,7 +62,6 @@ router.post('/signup',(req,res)=>{
                                     
                                 })
                                 .catch(err=>{
-                                    Console.log(err);
                                     res.status(500).json({
                                         error:err
                                     });
@@ -92,10 +93,16 @@ router.post('/signup',(req,res)=>{
 router.get('/userprivate',(req,res,next)=>{
     spotifySchema.user.find({_id:req.body.id}).exec().then(user=>{
         if(user){
+            res.status(201).json({
+                message:'user exists'
+            });
             res.send(user);
         }
         else {
-            res.send('user not found');
+            res.status(500).json({
+                message:'user not found'
+            });
+            
         }        
 }).catch(next);
 })

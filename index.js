@@ -19,3 +19,4 @@ app.use(function(error,req,res,next){
 app.listen(process.env.port||3000,function(){
     console.log('listening for a request');
 });
+module.exports=app;
