@@ -1,18 +1,11 @@
-const mongoose=require('mongoose');
 const express=require('express');
-const signUp=require('./routes/signUp');
-const bodyparser=require('body-parser');
 const app=express();
-app.use(bodyparser.json());
+const forgpass=require('./ForgetPassword/Forgpass-route');
+const connection=require('./DBconnection/connection');
+const bodyParser=require('body-parser');
+app.listen(3000);
+//connect to database
+connection(app);
+//call forpassroute
+app.use('/login/forgetpassword',forgpass);
 
-app.use(signUp);
-//ES6 promises
-mongoose.Promise=global.Promise;
-
-//connect to db before test run
-
-mongoose.connect('mongodb://localhost/spotify', { useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true });
-
-app.listen(process.env.port||3000,function(){
-    console.log('listening for a request');
-});
