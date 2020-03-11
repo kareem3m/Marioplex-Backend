@@ -36,8 +36,7 @@ const app = require('../index');
   });
 
   it('userprivate with valid id', (done) => {
-    request(app).get('/userprivate')
-      .send({"id":"5e695164e1b70d2ebc779a91"})
+    request(app).get('/v1/users/5e695164e1b70d2ebc779a91')
       .then((res) => {
         const body = res.body;
         expect("user exists")
@@ -47,8 +46,7 @@ const app = require('../index');
       .catch((err) => done(err));
   });
   it('userprivate with invalid id ', (done) => {
-    request(app).get('/userprivate')
-      .send({"id":"122334"})
+    request(app).get('/v1/users/1234')
       .then((res) => {
         const body = res.body;
         expect("user not found")

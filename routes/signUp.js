@@ -46,10 +46,10 @@ router.post('/signup',(req,res)=>{
                                 _id: mongoose.Types.ObjectId(),
                                 email: req.body.email ,
                                 password: hash,
-                                displayName: req.body.displayName ,
+                                displayName: req.body.username ,
                                 gender: req.body.gender ,
                                 country :req.body.country ,
-                                birthDate:req.body.birthDate
+                                birthDate:req.body.birthday
                             });
                             
                             user
@@ -90,16 +90,33 @@ router.post('/signup',(req,res)=>{
 
 });
 
-router.get('/userprivate',(req,res,next)=>{
-    spotifySchema.user.find({_id:req.body.id}).exec().then(user=>{
+router.get('/users/:id',(req,res,next)=>{
+    spotifySchema.user.find({_id:req.params.id}).exec().then(user=>{
         if(user){
-            res.status(201).json({
-                message:'user exists'
-            });
+
+            res.status(200);
             res.send(user);
+            
         }
         else {
-            res.status(500).json({
+            res.status(404).json({
+                message:'user not found'
+            });
+            
+        }        
+}).catch(next);
+})
+
+router.get('/:id',(req,res,next)=>{
+    spotifySchema.user.find({_id:req.params.id}).exec().then(user=>{
+        if(user){
+
+            res.status(200);
+            res.send(user);
+            
+        }
+        else {
+            res.status(403).json({
                 message:'user not found'
             });
             
