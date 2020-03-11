@@ -13,21 +13,20 @@ router.get('/',function(req,res)
 router.post('/',jsonparser,async function(req,res)
 {
     let email=req.body.email;
-    console.log(email);
     let user=await users.checkmail(email);
     
     if(!user)
     {
-        res.send('THERE IS NO SUCH USER');
+        res.status(403).send('THERE IS NO SUCH USER');
     }
     else 
     {
 
        let newPass= await users.updateforgottenpassword(email);
-       if(!newPass){return res.send("user not found");}
+       if(!newPass){return res.status(403).send("user not found");}
        else
        {
-       res.send("YOUR PASSWORD IS UPDATED");
+       res.status(200).send("YOUR PASSWORD IS UPDATED");
         sendmail(email,newPass);
        }
     }
