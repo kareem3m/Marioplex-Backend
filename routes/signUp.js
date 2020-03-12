@@ -21,14 +21,16 @@ router.post('/signup',(req,res)=>{
 
         if(err){
 
-            res.send("error occured");
+            res.status(500).json({
+                error:err
+            })
 
         } else {
 
             spotifySchema.user.findOne({email:req.body.email}).exec().then(user=>{
                 if(user){
                     
-                    res.status(201).json({
+                    res.status(409).json({
                         message:'Mail exists'
                     });
 
